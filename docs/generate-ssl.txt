@@ -1,0 +1,3 @@
+Too generate ssl keys
+    - In root folder run:
+        sh bin/generate-ssl-keys.sh
