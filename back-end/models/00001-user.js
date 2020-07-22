@@ -5,7 +5,7 @@ const Mongoose = require('mongoose');
 /**
  * Model class
  */
-function Model() {}
+function Model() { }
 module.exports = Model;
 
 /**
