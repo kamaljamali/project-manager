@@ -1,7 +1,14 @@
 extends ./layout/app.pug
 
 block content
-    h1 Hello from OjvarLand - V3
+    .has-text-centered
+        figure
+            img.logo
+        h1 Welcome to Ojvar World
+        p visits count #{ req.session.count }
 
 block styles
+    link(rel='stylesheet' href=mix('/css/pages/home.index.css'))
+
+block scripts
     script(defer src=mix("/js/pages/home/index.js"))

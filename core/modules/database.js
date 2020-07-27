@@ -7,7 +7,7 @@ const {
 /**
  * DatabaseModule module
  */
-function DatabaseModule() {}
+function DatabaseModule() { }
 module.exports = DatabaseModule;
 
 /**
@@ -24,13 +24,15 @@ DatabaseModule.boot = function boot(Bootstrap) {
 
                 if (!config.lazyConnect) {
                     res.connect()
-                        .then(res => resolve())
-                        .catch(err => reject(err));
-                } else {
-                    resolve();
+                        .then(res => Logger.info('> Connecting to database successfully'))
+                        .catch(err => Logger.error('>! Database connection failed'));
                 }
+                resolve();
             })
-            .catch(err => reject(err));
+            .catch(err => {
+                Logger.error(err);
+                reject(err);
+            });
     });
 };
 

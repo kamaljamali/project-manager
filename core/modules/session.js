@@ -26,18 +26,18 @@ SessionModule.boot = function boot(Bootstrap) {
 SessionModule.initSession = function initSession(config) {
     return new Promise((resolve, reject) => {
         let options = _.merge({}, {
-            name: 'sess_id_',
+            name: 'session',
             sessionType: 'memory',
             path: '/',
             saveUninitialized: true,
             reSave: false,
             httpOnly: true,
             secret: 'secretKey',
-            secure: true,
+            secure: process.env.SERVER_HTTPS,
             maxAge: (60000 * 15),
         }, config);
 
-        if (isProductionMode) {
+        if (isProductionMode()) {
             App.set('trust proxy', 1);
         }
 
@@ -47,6 +47,7 @@ SessionModule.initSession = function initSession(config) {
                 const session = Session(options);
 
                 App.use(session);
+                console.log('> Session initialized successfully');
 
                 resolve(session);
             });

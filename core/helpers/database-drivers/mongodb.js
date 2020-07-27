@@ -71,6 +71,8 @@ Driver.prototype.initModels = function initModels(engine) {
                     Logger.info(`> DB-Model ${model.name} initialized successfully`);
                 });
         });
+
+        resolve();
     })
 };
 
