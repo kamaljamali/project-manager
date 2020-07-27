@@ -22,7 +22,9 @@ module.exports = {
     express: {
         publicFolder: process.env.EXPRESS_PUBLIC || 'public',
         viewsFolder: process.env.EXPRESS_VIEWS_PATH || 'front-end/views',
-        compression: process.env.SERVER_COMPRESSION || 'gzip'
+        compression: process.env.SERVER_COMPRESSION || 'gzip',
+        cspDefaultSrc: process.env.CSP_POLICY_DEFAULT_SRC || "'self'",
+        cspImgSrc: process.env.CSP_POLICY_IMG_SRC || "*"
     },
 
     logger: {

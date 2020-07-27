@@ -26,6 +26,7 @@ SessionModule.boot = function boot(Bootstrap) {
 SessionModule.initSession = function initSession(config) {
     return new Promise((resolve, reject) => {
         let options = _.merge({}, {
+            name: 'sess_id_',
             sessionType: 'memory',
             path: '/',
             saveUninitialized: true,

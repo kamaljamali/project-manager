@@ -1,0 +1,24 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(http-equiv='X-UA-Compatible' content='ie=edge')
+
+        title= (title || 'Sunset-V3')
+
+        link(rel='stylesheet' href=mix('/css/core/app.css'))
+        block styles
+
+        src(defer src=mix('/js/core/app.js'))
+        block scripts
+
+    body
+        section.section#app
+            .contaier
+                block content
+
+        footer.footer
+            .content.has-text-centered
+                p
+                    strong Ojvar net
