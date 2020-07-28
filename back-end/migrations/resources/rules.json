@@ -1,0 +1,13 @@
+[{
+        "name": "users.list"
+    },
+    {
+        "name": "users.create"
+    },
+    {
+        "name": "users.delete"
+    },
+    {
+        "name": "users.edit"
+    }
+]

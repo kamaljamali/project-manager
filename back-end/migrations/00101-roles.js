@@ -1,7 +1,5 @@
 'use strict';
 
-const CryptoHelepr = use('back-end/helpers/crypto');
-
 /**
  * Migration class
  */

@@ -19,10 +19,13 @@ Controller.migrate = function migrate(req, res, next) {
     const files = FS.readdirSync(rPath(basePath));
 
     for (let fileIndex in files) {
-        const file = files[fileIndex];
-        const Migration = use(basePath, file);
+        const file = rPath(basePath, files[fileIndex]);
 
-        Migration.migrate();
+        if (FS.lstatSync(file).isFile()) {
+            const Migration = use(basePath, file);
+
+            Migration.migrate();
+        }
     }
 
     res.sendStatus(200);
@@ -39,10 +42,13 @@ Controller.rollback = function rollback(req, res, next) {
     const files = FS.readdirSync(rPath(basePath));
 
     for (let fileIndex in files) {
-        const file = files[fileIndex];
-        const Migration = use(basePath, file);
+        const file = rPath(basePath, files[fileIndex]);
 
-        Migration.rollback();
+        if (FS.lstatSync(file).isFile()) {
+            const Migration = use(basePath, file);
+
+            Migration.rollback();
+        }
     }
 
     res.sendStatus(200);
