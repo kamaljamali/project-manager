@@ -1,3 +1,4 @@
+mkdir config/core/ssl/ -p
 cd config/core/ssl/
 
 # Generate db-params

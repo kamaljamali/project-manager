@@ -1,5 +1,5 @@
 public
 logs
 .env
-config/core/ssl/*.pem
+*.pem
 node_modules

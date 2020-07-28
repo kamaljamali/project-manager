@@ -5,7 +5,7 @@ const Mongoose = require('mongoose');
 /**
  * Model class
  */
-function Model() { }
+function Model() {}
 module.exports = Model;
 
 /**
@@ -50,7 +50,11 @@ Model.getSchema = function getSchema() {
         activation_code: {
             type: String,
             default: null
-        }
+        },
+        roles: [{
+            type: Mongoose.Schema.Types.ObjectId,
+            ref: 'Role'
+        }]
     }, {
         timestamps: {
             createdAt: 'created_at',
