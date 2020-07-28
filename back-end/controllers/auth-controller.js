@@ -3,7 +3,7 @@
 /**
  * Controller
  */
-function Controller() {}
+function Controller() { }
 module.exports = Controller;
 
 /**
@@ -13,7 +13,7 @@ module.exports = Controller;
  * @param {Function} next Callback
  */
 Controller.login = function login(req, res, next) {
-    res.render('auth/login.pug');
+    res.render('auth/login.pug', { req });
 };
 
 /**

@@ -40,7 +40,7 @@ html(lang='en')
                     .navbar-item
                         .buttons
                             if (can('auth', req))
-                                a.button.is-light
+                                a.button.is-light(href=Router.routePath('auth.logout'))
                                     | Log out
                             else
                                 a.button.is-primary
