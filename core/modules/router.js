@@ -148,7 +148,7 @@ Router.routePath = function routePath(alias) {
     let {
         groupName,
         router
-    } = Router.route('auth.login');
+    } = Router.route(alias);
 
     groupName = groupName || '';
     const path = `${global.serverUrl}/${groupName}${router.route.path}`;

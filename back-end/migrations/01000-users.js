@@ -18,6 +18,7 @@ Migration.migrate = function migrate() {
             const User = db.model('User');
 
             User.create({
+                _id: Mongoose.Types.ObjectId("5f1fd070e0efdd7db92f4251"),
                 name: 'root',
                 pwd: CryptoHelepr.encrypt('123456'),
                 email: 'root@qeng.ir',
