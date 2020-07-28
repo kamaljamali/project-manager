@@ -12,10 +12,10 @@ module.exports = Migration;
 Migration.migrate = function migrate() {
     return new Promise((resolve, reject) => {
         try {
-            const User = db.model('Rule');
+            const Rule = db.model('Rule');
             const rules = use('back-end/migrations/resources/rules.json');
 
-            User.create(rules);
+            Rule.create(rules);
 
             resolve();
         } catch (err) {
@@ -30,9 +30,9 @@ Migration.migrate = function migrate() {
 Migration.rollback = function rollback() {
     return new Promise((resolve, reject) => {
         try {
-            const User = db.model('Rule');
+            const Rule = db.model('Rule');
 
-            User.deleteMany({}, (e, r) => {
+            Rule.deleteMany({}, (e, r) => {
                 if (e) {
                     reject(e);
                 } else {

@@ -1,5 +1,7 @@
 'use strict';
 
+const Mongoose = require('mongoose');
+
 /**
  * Migration class
  */
@@ -12,16 +14,20 @@ module.exports = Migration;
 Migration.migrate = function migrate() {
     return new Promise((resolve, reject) => {
         try {
+            const Role = db.model('Role');
 
-            const User = db.model('User');
-
-            User.create({
-                name: 'root',
-                pwd: CryptoHelepr.encrypt('123456'),
-                email: 'root@qeng.ir'
+            Role.create({
+                name: 'admin',
+                rules: [
+                    Mongoose.ObjectId('56cb91bdc3464f14678934cc')
+                ]
+            }, (e, r) => {
+                if (e) {
+                    reject(e)
+                } else {
+                    resolve(r);
+                }
             });
-
-            resolve();
         } catch (err) {
             reject(err);
         }
@@ -34,13 +40,15 @@ Migration.migrate = function migrate() {
 Migration.rollback = function rollback() {
     return new Promise((resolve, reject) => {
         try {
-            const User = db.model('User');
+            const Role = db.model('Role');
 
-            User.remove({
-                name: 'root'
+            Role.deleteMany({}, (e, r) => {
+                if (e) {
+                    reject(e)
+                } else {
+                    resolve(r);
+                }
             });
-
-            resolve();
         } catch (err) {
             reject(err);
         }

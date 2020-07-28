@@ -1,7 +1,5 @@
 'use strict';
 
-const CryptoHelepr = use('back-end/helpers/crypto');
-
 /**
  * Migration class
  */
@@ -20,9 +18,13 @@ Migration.migrate = function migrate() {
                 name: 'root',
                 pwd: CryptoHelepr.encrypt('123456'),
                 email: 'root@qeng.ir'
+            }, (e, r) => {
+                if (e) {
+                    reject(e)
+                } else {
+                    resolve(r);
+                }
             });
-
-            resolve();
         } catch (err) {
             reject(err);
         }
@@ -39,9 +41,13 @@ Migration.rollback = function rollback() {
 
             User.remove({
                 name: 'root'
+            }, (e, r) => {
+                if (e) {
+                    reject(e)
+                } else {
+                    resolve(r);
+                }
             });
-
-            resolve();
         } catch (err) {
             reject(err);
         }

@@ -6,11 +6,12 @@ const bodyParser = require('body-parser');
 const CookieParser = require('cookie-parser');
 const CSURF = require('csurf');
 const Helmet = require('helmet');
+const Morgan = require('morgan');
 
 /**
  * Module
  */
-function ExpressModule() { }
+function ExpressModule() {}
 module.exports = ExpressModule;
 
 /**
@@ -59,6 +60,13 @@ ExpressModule.setupExpress = function setupExpress(config) {
 ExpressModule.addMiddleware = function addMiddleware(app, config) {
     /* Compression */
     ExpressModule.setupCompression(app, config);
+
+    /* Add morgan */
+    if (isProductionMode()) {
+        app.use(Morgan('combined'));
+    } else {
+        app.use(Morgan('dev'));
+    }
 
     /* Add cookie-parse */
     app.use(CookieParser());
