@@ -5,12 +5,13 @@
  */
 module.exports = {
     modules: {
-        0: "core",
-        1: "logger",
-        2: "express",
-        3: "session",
-        4: "router",
-        5: "database",
-        99: "server"
+        100: "core",
+        101: "logger",
+        102: "express",
+        103: "session",
+        104: "router",
+        105: "database",
+        110: "services",
+        199: "server"
     }
 };

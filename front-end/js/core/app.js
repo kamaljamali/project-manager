@@ -1,5 +1,7 @@
 'use strict';
 
+require('@JS/core/bulma-wrapper');
+
 const Vue = require('vue');
 const Vuex = require('vuex');
 window.Vue = Vue;
@@ -8,3 +10,4 @@ Vue.use(Vuex);
 
 const Axios = require('axios');
 window.Axios = Axios;
+
