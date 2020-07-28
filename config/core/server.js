@@ -15,7 +15,7 @@ function isNULL(value, defaultValue) {
  * Export config
  */
 module.exports = {
-    https: isNULL(process.env.SERVER_HTTPS, false),
+    https: isNULL(process.env.SERVER_HTTPS, false) == 'true',
     port: isNULL(process.env.SERVER_PORT, 8585),
     host: isNULL(process.env.SERVER_HOST, C_HOST),
 

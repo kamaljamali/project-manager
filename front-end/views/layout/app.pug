@@ -18,7 +18,8 @@ html(lang='en')
             .navbar-brand
                 a.navbar-item(href=global.serverUrl)
                     img.nav-bar-logo
-                a.navbar-burger.burger(role='button' aria-label='menu' aria-expanded='false' data-target='navbarBasicExample')
+                a.navbar-burger.burger(role='button' aria-label='menu'
+                    aria-expanded='false' data-target='navbarBasicExample')
                     span(aria-hidden='true')
                     span(aria-hidden='true')
                     span(aria-hidden='true')
@@ -26,8 +27,6 @@ html(lang='en')
                 .navbar-start
                     a.navbar-item
                         | Home
-                    a.navbar-item
-                        | Documentation
                     .navbar-item.has-dropdown.is-hoverable
                         a.navbar-link
                             | More
@@ -46,7 +45,7 @@ html(lang='en')
                             else
                                 a.button.is-primary
                                     strong Sign up
-                                a.button.is-light
+                                a.button.is-light(href=Router.routePath('auth.login'))
                                     | Log in
 
         section.section#app

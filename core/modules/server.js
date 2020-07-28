@@ -7,7 +7,7 @@ const FS = require('fs');
 /**
  * Server module
  */
-function Server() {}
+function Server() { }
 module.exports = Server;
 
 /**
@@ -26,7 +26,7 @@ Server.boot = function boot(Bootstrap) {
  */
 Server.listen = function listen(Config) {
     return new Promise((resolve, reject) => {
-        let server = (Config.https == "true") ?
+        let server = (Config.https === true) ?
             Server.startHttps(Config) :
             Server.startHttp(Config);
 

@@ -1,5 +1,6 @@
 'use strict';
 
 /* Get Home router */
-let router = Router.router();
+const router = Router.router();
+
 router.get('/', 'home@index', 'home.index');
