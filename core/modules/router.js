@@ -26,7 +26,7 @@ Router.boot = function boot(Bootstrap) {
         Router.loadRoutes();
         Router.addEventHandler();
 
-        resolve();
+        resolve(Router);
     });
 };
 
@@ -51,6 +51,7 @@ Router.loadRoutes = function loadRoutes() {
             }
 
             if (router.router != global.App) {
+                router.__baseRoute = rName;
                 global.App.use(rName, router.router);
             }
         });
@@ -110,7 +111,7 @@ Router.router = function router(groupName) {
 
     if (null == router) {
         router = (C_DEF_ROUTE == groupName) ? global.App : Express.Router();
-        router = RouterHelper.newRouter(Router, router);
+        router = RouterHelper.newRouter(Router, router, groupName);
         Router._routers[groupName] = router;
     }
 
@@ -122,8 +123,11 @@ Router.router = function router(groupName) {
  * @param {Object} router Router object
  * @param {String} alias Alias
  */
-Router.addRoute = function addRoute(router, alias) {
-    Router._routes[alias] = router;
+Router.addRoute = function addRoute(router, alias, groupName) {
+    Router._routes[alias] = {
+        router,
+        groupName
+    };
 };
 
 /**
@@ -133,4 +137,21 @@ Router.addRoute = function addRoute(router, alias) {
  */
 Router.route = function route(alias) {
     return Router._routes[alias];
+};
+
+/**
+ * Get router path
+ * @param {Object} router Router object
+ * @param {String} alias Alias
+ */
+Router.routePath = function routePath(alias) {
+    let {
+        groupName,
+        router
+    } = Router.route('auth.login');
+
+    groupName = groupName || '';
+    const path = `${global.serverUrl}/${groupName}${router.route.path}`;
+
+    return path;
 };

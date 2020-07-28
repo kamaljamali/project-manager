@@ -15,13 +15,9 @@ module.exports = Server;
  * @param {Object} Bootstrap Bootstrap instance
  */
 Server.boot = function boot(Bootstrap) {
-    return new Promise((resolve, reject) => {
-        const Config = global.config('core/server');
+    const Config = global.config('core/server');
 
-        Server.listen(Config);
-
-        resolve();
-    });
+    return Server.listen(Config);
 };
 
 /**
@@ -29,12 +25,23 @@ Server.boot = function boot(Bootstrap) {
  * @param {Object} Config Config object
  */
 Server.listen = function listen(Config) {
-    let server = (Config.https == "true") ?
-        Server.startHttps(Config) :
-        Server.startHttp(Config);
+    return new Promise((resolve, reject) => {
+        let server = (Config.https == "true") ?
+            Server.startHttps(Config) :
+            Server.startHttp(Config);
 
-    server.listen(Config.port, () => {
-        Logger.info(`Server started at port ${Config.port}`);
+        const deafultPort = Config.https ? 443 : 80;
+        const serverUrl = (Config.https ? 'https://' : 'http://') +
+            Config.host +
+            (Config.port != deafultPort ? `:${Config.port}` : '');
+        server.listen(Config.port, Config.host, () => {
+            Logger.info(`Server started at ${serverUrl}`);
+        });
+
+        global.serverUrl = serverUrl;
+        global.Server = server;
+
+        resolve();
     });
 };
 
@@ -45,7 +52,7 @@ Server.listen = function listen(Config) {
 Server.startHttp = function startHttp(Config) {
     const httpServer = Http.createServer(global.App);
 
-    Logger.info('Create Http Server');
+    Logger.info('> Create Http Server');
     return httpServer;
 };
 
@@ -61,6 +68,6 @@ Server.startHttps = function startHttps(Config) {
     };
     const httpsServer = Https.createServer(options, global.App);
 
-    Logger.info('Create Https Server');
+    Logger.info('> Create Https Server');
     return httpsServer;
 };

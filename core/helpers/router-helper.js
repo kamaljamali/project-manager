@@ -3,9 +3,10 @@
 /**
  * Route Helper
  */
-function RouterHelper(Router, newRouter) {
+function RouterHelper(Router, newRouter, groupName) {
     this.Router = Router;
     this.router = newRouter;
+    this.groupName = groupName || '';
 
     /* Types */
     const types = [
@@ -29,7 +30,7 @@ function RouterHelper(Router, newRouter) {
                 let newRoute = stack[stack.length - 1];
 
                 /* Add to routes list */
-                Router.addRoute(newRoute, alias);
+                Router.addRoute(newRoute, alias, groupName);
             }
         };
     });
@@ -63,8 +64,8 @@ RouterHelper.redirect = function redirect(Router) {
  * @param {Router} router Router Object
  * @param {Router} newRouter New Router Object
  */
-RouterHelper.newRouter = function newRouter(Router, newRouter) {
-    return new RouterHelper(Router, newRouter);
+RouterHelper.newRouter = function newRouter(Router, newRouter, groupName) {
+    return new RouterHelper(Router, newRouter, groupName);
 };
 
 /**
