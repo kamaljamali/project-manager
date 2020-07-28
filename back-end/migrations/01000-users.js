@@ -1,5 +1,8 @@
 'use strict';
 
+const Mongoose = require('mongoose');
+const CryptoHelepr = use('back-end/helpers/crypto');
+
 /**
  * Migration class
  */
@@ -17,7 +20,10 @@ Migration.migrate = function migrate() {
             User.create({
                 name: 'root',
                 pwd: CryptoHelepr.encrypt('123456'),
-                email: 'root@qeng.ir'
+                email: 'root@qeng.ir',
+                roles: [
+                    Mongoose.Types.ObjectId('5f1fcd4af94a3279d358234b')
+                ]
             }, (e, r) => {
                 if (e) {
                     reject(e)

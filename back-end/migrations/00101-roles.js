@@ -17,9 +17,10 @@ Migration.migrate = function migrate() {
             const Role = db.model('Role');
 
             Role.create({
+                _id: Mongoose.Types.ObjectId('5f1fcd4af94a3279d358234b'),
                 name: 'admin',
                 rules: [
-                    Mongoose.ObjectId('56cb91bdc3464f14678934cc')
+                    Mongoose.Types.ObjectId('56cb91bdc3464f14678934cc')
                 ]
             }, (e, r) => {
                 if (e) {
