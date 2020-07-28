@@ -8,6 +8,8 @@ module.exports = {
         user: process.env.DB_USER,
         pwd: process.env.DB_PWD,
         options: {
+            useFindAndModify: false,
+            useCreateIndex: true,
             useNewUrlParser: true,
             useUnifiedTopology: true,
             serverSelectionTimeoutMS: process.env.DB_TIME_OUT || 5000

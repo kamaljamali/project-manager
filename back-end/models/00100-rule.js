@@ -32,6 +32,7 @@ Model.getSchema = function getSchema() {
         name: {
             type: String,
             required: true,
+            unique: true,
             trim: true
         },
         is_active: {

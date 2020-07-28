@@ -32,11 +32,15 @@ Model.getSchema = function getSchema() {
         name: {
             type: String,
             required: true,
+            unique: true,
+            index: true,
             trim: true
         },
         email: {
             type: String,
             required: true,
+            unique: true,
+            index: true,
             trim: true
         },
         pwd: {
