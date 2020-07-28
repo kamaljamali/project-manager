@@ -150,8 +150,14 @@ Router.routePath = function routePath(alias) {
         router
     } = Router.route(alias);
 
-    groupName = groupName || '';
-    const path = `${global.serverUrl}/${groupName}${router.route.path}`;
+    let path = (groupName != null ? '/' : '') + 
+    ('' + groupName) + router.route.path;
+
+    if (path.endsWith('//')){
+        path = path.substring(0, path.length -1);
+    }
+
+    path = `${global.serverUrl}${path}`;
 
     return path;
 };

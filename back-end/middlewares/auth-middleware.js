@@ -10,8 +10,7 @@ module.exports = function apply(req, res, next) {
     const auth = req.session.auth;
 
     if (null == auth) {
-        let path = Router.routePath('auth.login');
-        res.redirect(path);
+        res.redirect(Router.routePath('auth.login'));
     } else {
         next();
     }

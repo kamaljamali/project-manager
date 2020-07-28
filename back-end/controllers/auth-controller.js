@@ -24,6 +24,7 @@ Controller.login = function login(req, res, next) {
  */
 Controller.logout = function logout(req, res, next) {
     req.session.auth = null;
+
     res.redirect(Router.routePath('home.index'));
 };
 
