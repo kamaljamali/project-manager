@@ -18,6 +18,33 @@ mix.alias({
     '@FONTS': 'front-end/fonts'
 });
 
+/**
+ *  Webpack config
+ */
+mix.webpackConfig({
+    module: {
+        rules: [{
+                test: /\.pug$/i,
+                oneOf: [{
+                        resourceQuery: /^\?vue/i,
+                        use: ['pug-plain-loader']
+                    },
+                    {
+                        use: [
+                            'raw-loader',
+                            'pug-plain-loader'
+                        ]
+                    }
+                ]
+            },
+            {
+                test: /\.pug$/,
+                loader: 'pug-plain-loader'
+            }
+        ]
+    }
+});
+
 /* JS */
 mix.js('front-end/js/core/app.js', 'public/js/core')
     .js('front-end/js/pages/home/index.js', 'public/js/pages/home');
