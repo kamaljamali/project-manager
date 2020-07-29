@@ -15,7 +15,11 @@ mix.alias({
     '@SASS': 'front-end/sass',
     '@VIEWS': 'front-end/views',
     '@IMAGES': 'front-end/images',
-    '@FONTS': 'front-end/fonts'
+    '@FONTS': 'front-end/fonts',
+    '@HELPERS': 'front-end/js/helpers',
+    '@VUE': 'front-end/js/vue',
+    '@VUEC': 'front-end/js/vue/components',
+    '@VUEX': 'front-end/js/vue/vuex',
 });
 
 /**
@@ -23,23 +27,17 @@ mix.alias({
  */
 mix.webpackConfig({
     module: {
-        rules: [{
-                test: /\.pug$/i,
+        rules: [
+            {
+                test: /\.pug$/,
                 oneOf: [{
-                        resourceQuery: /^\?vue/i,
+                        resourceQuery: /^\?vue/,
                         use: ['pug-plain-loader']
                     },
                     {
-                        use: [
-                            'raw-loader',
-                            'pug-plain-loader'
-                        ]
+                        use: ['raw-loader', 'pug-plain-loader']
                     }
                 ]
-            },
-            {
-                test: /\.pug$/,
-                loader: 'pug-plain-loader'
             }
         ]
     }
@@ -52,3 +50,4 @@ mix.js('front-end/js/core/app.js', 'public/js/core')
 /* SASS */
 mix.sass('front-end/sass/core/app.scss', 'public/css/core')
     .sass('front-end/sass/pages/home.index.scss', 'public/css/pages');
+
