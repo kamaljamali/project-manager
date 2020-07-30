@@ -24,7 +24,11 @@ Controller.migrate = async function migrate(req, res, next) {
         const file = rPath(C_BASEPATH, files[fileIndex]);
         const Migration = use(file);
 
-        await Migration.migrate();
+        try {
+            await Migration.migrate();
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     res.sendStatus(200);
@@ -43,7 +47,11 @@ Controller.rollback = async function rollback(req, res, next) {
         const file = rPath(C_BASEPATH, files[fileIndex]);
         const Migration = use(file);
 
-        await Migration.rollback();
+        try {
+            await Migration.migrate();
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     res.sendStatus(200);
