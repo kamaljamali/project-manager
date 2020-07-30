@@ -2,6 +2,8 @@
 
 const FS = require('fs');
 const Path = require('path');
+const C_EXTENTION = '.js';
+const C_BASEPATH = 'back-end/migrations';
 
 /**
  * Controller
@@ -16,21 +18,13 @@ module.exports = Controller;
  * @param {Function} next Callback
  */
 Controller.migrate = async function migrate(req, res, next) {
-    const basePath = 'back-end/migrations';
-    let files = FS.readdirSync(rPath(basePath))
-        .filter(file => Path.extname(file).toLowerCase() == '.js');
-
-    /* Filter by migration name */
-    const migration = req.query.migration;
-    if (migration) {
-        files = files.filter(x => Path.basename == migration);
-    }
+    const files = Controller.getFilesList(req, C_BASEPATH);
 
     for (let fileIndex in files) {
-        const file = rPath(basePath, files[fileIndex]);
+        const file = rPath(C_BASEPATH, files[fileIndex]);
         const Migration = use(file);
 
-        await Migration.migrate()
+        await Migration.migrate();
     }
 
     res.sendStatus(200);
@@ -43,18 +37,10 @@ Controller.migrate = async function migrate(req, res, next) {
  * @param {Function} next Callback
  */
 Controller.rollback = async function rollback(req, res, next) {
-    const basePath = 'back-end/migrations';
-    let files = FS.readdirSync(rPath(basePath))
-        .filter(file => Path.extname(file).toLowerCase() == '.js');
-
-    /* Filter by migration name */
-    const migration = req.query.migration;
-    if (migration) {
-        files = files.filter(x => Path.basename == migration);
-    }
+    const files = Controller.getFilesList(req, C_BASEPATH);
 
     for (let fileIndex in files) {
-        const file = rPath(basePath, files[fileIndex]);
+        const file = rPath(C_BASEPATH, files[fileIndex]);
         const Migration = use(file);
 
         await Migration.rollback();
@@ -63,3 +49,19 @@ Controller.rollback = async function rollback(req, res, next) {
     res.sendStatus(200);
 };
 
+/**
+ * Get files list
+ * @param {Request} req Request
+ */
+Controller.getFilesList = function getFilesList(req, basePath) {
+    let files = FS.readdirSync(rPath(basePath))
+        .filter(file => Path.extname(file).toLowerCase() === C_EXTENTION);
+
+    /* Filter by migration name */
+    const migration = req.query.migration;
+    if (migration) {
+        files = files.filter(x => Path.basename(x, C_EXTENTION) == migration);
+    }
+
+    return files;
+}
