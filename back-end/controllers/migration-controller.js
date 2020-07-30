@@ -15,16 +15,22 @@ module.exports = Controller;
  * @param {Response} res Response
  * @param {Function} next Callback
  */
-Controller.migrate = function migrate(req, res, next) {
+Controller.migrate = async function migrate(req, res, next) {
     const basePath = 'back-end/migrations';
-    const files = FS.readdirSync(rPath(basePath))
+    let files = FS.readdirSync(rPath(basePath))
         .filter(file => Path.extname(file).toLowerCase() == '.js');
+
+    /* Filter by migration name */
+    const migration = req.query.migration;
+    if (migration) {
+        files = files.filter(x => Path.basename == migration);
+    }
 
     for (let fileIndex in files) {
         const file = rPath(basePath, files[fileIndex]);
-        const Migration = use(basePath, file);
+        const Migration = use(file);
 
-        Migration.migrate();
+        await Migration.migrate()
     }
 
     res.sendStatus(200);
@@ -36,17 +42,24 @@ Controller.migrate = function migrate(req, res, next) {
  * @param {Response} res Response
  * @param {Function} next Callback
  */
-Controller.rollback = function rollback(req, res, next) {
+Controller.rollback = async function rollback(req, res, next) {
     const basePath = 'back-end/migrations';
-    const files = FS.readdirSync(rPath(basePath))
+    let files = FS.readdirSync(rPath(basePath))
         .filter(file => Path.extname(file).toLowerCase() == '.js');
+
+    /* Filter by migration name */
+    const migration = req.query.migration;
+    if (migration) {
+        files = files.filter(x => Path.basename == migration);
+    }
 
     for (let fileIndex in files) {
         const file = rPath(basePath, files[fileIndex]);
-        const Migration = use(basePath, file);
+        const Migration = use(file);
 
-        Migration.rollback();
+        await Migration.rollback();
     }
 
     res.sendStatus(200);
 };
+
