@@ -48,7 +48,7 @@ Controller.rollback = async function rollback(req, res, next) {
         const Migration = use(file);
 
         try {
-            await Migration.migrate();
+            await Migration.rollback();
         } catch (err) {
             console.error(err);
         }
