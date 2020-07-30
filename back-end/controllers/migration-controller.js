@@ -1,6 +1,7 @@
 'use strict';
 
 const FS = require('fs');
+const Path = require('path');
 
 /**
  * Controller
@@ -21,7 +22,7 @@ Controller.migrate = function migrate(req, res, next) {
     for (let fileIndex in files) {
         const file = rPath(basePath, files[fileIndex]);
 
-        if (FS.lstatSync(file).isFile()) {
+        if (Path.extname(file).toLowerCase() === '.js') {
             const Migration = use(basePath, file);
 
             Migration.migrate();
@@ -44,7 +45,7 @@ Controller.rollback = function rollback(req, res, next) {
     for (let fileIndex in files) {
         const file = rPath(basePath, files[fileIndex]);
 
-        if (FS.lstatSync(file).isFile()) {
+        if (Path.extname(file).toLowerCase() === '.js') {
             const Migration = use(basePath, file);
 
             Migration.rollback();
@@ -53,3 +54,4 @@ Controller.rollback = function rollback(req, res, next) {
 
     res.sendStatus(200);
 };
+
