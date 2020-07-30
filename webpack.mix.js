@@ -11,6 +11,7 @@ mix.version();
 
 /* Aliases */
 mix.alias({
+    '@PUBLIC': 'public',
     '@JS': 'front-end/js',
     '@SASS': 'front-end/sass',
     '@VIEWS': 'front-end/views',

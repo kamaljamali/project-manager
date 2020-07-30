@@ -163,3 +163,30 @@ Router.routePath = function routePath(alias) {
 
     return path;
 };
+
+/**
+ * Make manifest file
+ */
+Router.makeManifest = function makeManifest() {
+    return new Promise((resolve, reject) => {
+        const { publicFolder } = config('core/server', 'express');
+        const filePath = rPath(publicFolder, 'route-manifest.json');
+
+        const routesList = {};
+        Object.keys(Router._routes)
+            .forEach(x => {
+                const router = Router._routes[x];
+
+                routesList[x] = {
+                    route: Router.routePath(x),
+                    groupName: router.groupName || '',
+                    subPath: router.router.route.path || ''
+                };
+            });
+
+        /* Write to file */
+        FS.writeFileSync(filePath, JSON.stringify(routesList, null, 2));
+
+        resolve();
+    });
+};
