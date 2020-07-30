@@ -25,7 +25,12 @@ DatabaseModule.boot = function boot(Bootstrap) {
                 if (!config.lazyConnect) {
                     res.connect()
                         .then(res => Logger.info('> Connecting to database successfully'))
-                        .catch(err => Logger.error('>! Database connection failed'));
+                        .catch(err => {
+                            if (! isProductionMode()){
+                                console.error(err);
+                            }
+                            Logger.error('>! Database connection failed');
+                        });
                 }
                 resolve();
             })

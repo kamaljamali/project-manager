@@ -2,6 +2,7 @@
 
 const Mongoose = require('mongoose');
 const FS = require('fs');
+const Path = require('path');
 
 /**
  * Driver module
