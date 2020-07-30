@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-NODE_ENV=production node server.js
+cross-env NODE_ENV=production node server.js
