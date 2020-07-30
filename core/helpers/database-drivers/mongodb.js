@@ -62,7 +62,8 @@ Driver.prototype.connect = function connect() {
 Driver.prototype.initModels = function initModels(engine) {
     return new Promise((resolve, reject) => {
         const basePath = rPath('back-end/models');
-        const models = FS.readdirSync(basePath);
+        const models = FS.readdirSync(basePath)
+            .filter(file => Path.extname(file).toLowerCase() == '.js');
 
         models.forEach(file => {
             const Model = use(basePath, file);

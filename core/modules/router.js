@@ -2,6 +2,7 @@
 
 const Express = require('express');
 const FS = require('fs');
+const Path = require('path');
 const RouterHelper = use('core/helpers/router-helper');
 
 const C_DEF_ROUTE = '';
@@ -35,7 +36,8 @@ Router.boot = function boot(Bootstrap) {
  */
 Router.loadRoutes = function loadRoutes() {
     const path = rPath('routes');
-    const routes = FS.readdirSync(path);
+    const routes = FS.readdirSync(path)
+        .filter(file => Path.extname(file).toLowerCase() == '.js');
 
     /* Load routes */
     routes.forEach(route => use(path, route));
@@ -150,11 +152,11 @@ Router.routePath = function routePath(alias) {
         router
     } = Router.route(alias);
 
-    let path = (groupName != null ? '/' : '') + 
-    ('' + groupName) + router.route.path;
+    let path = (groupName != null ? '/' : '') +
+        ('' + groupName) + router.route.path;
 
-    if (path.endsWith('//')){
-        path = path.substring(0, path.length -1);
+    if (path.endsWith('//')) {
+        path = path.substring(0, path.length - 1);
     }
 
     path = `${global.serverUrl}${path}`;

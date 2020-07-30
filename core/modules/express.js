@@ -1,6 +1,7 @@
 'use strict';
 
 const FS = require('fs');
+const Path = require('path');
 const Express = require('express');
 const bodyParser = require('body-parser');
 const CookieParser = require('cookie-parser');
@@ -122,6 +123,7 @@ ExpressModule.loadCoreMiddlewares = function loadCoreMiddlewares(app) {
 
         if (isDirectory) {
             FS.readdirSync(currentFile)
+                .filter(file => Path.extname(file).toLowerCase() == '.js')
                 .forEach(file => {
                     queue.push(rPath(currentFile, file));
                 });
