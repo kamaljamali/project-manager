@@ -10,10 +10,10 @@ const C_DEF_ROUTE = '';
 /**
  * Router module
  */
-function Router() {}
+function Router() { }
 module.exports = Router;
 
-// /* Defaults */
+/* Defaults */
 Router._routes = {};
 Router._routers = {};
 
@@ -26,7 +26,7 @@ Router.boot = function boot(Bootstrap) {
         global.Router = Router;
         Router.loadRoutes();
         Router.addEventHandler();
-
+        
         resolve(Router);
     });
 };
@@ -185,6 +185,10 @@ Router.makeManifest = function makeManifest() {
             });
 
         /* Write to file */
+        const fullPublicPath = rPath(publicFolder);
+        if (!FS.existsSync(fullPublicPath)) {
+            FS.mkdirSync(fullPublicPath);
+        }
         FS.writeFileSync(filePath, JSON.stringify(routesList, null, 2));
 
         resolve();

@@ -46,7 +46,7 @@ Bootstrap.loadModules = function loadModules(config) {
         }
 
         /* Make route-manifest file */
-        await Router.makeManifest();
+        Router.makeManifest();
 
         resolve();
     });
