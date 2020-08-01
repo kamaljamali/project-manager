@@ -11,21 +11,22 @@ module.exports = BaseFilter;
  * @param {Object} data data
  * @param {Function} filterFnc Filter function
  */
-BaseFilter.filter = function filter(data, filterFnc) {
-    return new Promise((resolve, reject) => {
-        let isArray = Array.isArray(data);
+BaseFilter.filter = async function filter(data, filterFnc) {
+    let isArray = Array.isArray(data);
 
-        if (!isArray) {
-            data = [data];
-        }
+    if (!isArray) {
+        data = [data];
+    }
 
-        data = data.map(filterFnc);
+    await Promise.all([
+        async () => { data = await data.map(filterFnc); }
+    ]);
 
-        if (!isArray) {
-            resolve(data[0]);
-        }
-        else {
-            resolve(data);
-        }
-    });
+    if (!isArray) {
+        return data[0];
+    }
+    else {
+        return data;
+    }
 };
+
