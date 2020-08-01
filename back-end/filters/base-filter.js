@@ -18,9 +18,7 @@ BaseFilter.filter = async function filter(data, filterFnc) {
         data = [data];
     }
 
-    await Promise.all([
-        async () => { data = await data.map(filterFnc); }
-    ]);
+    data = data.map(filterFnc);
 
     if (!isArray) {
         return data[0];
