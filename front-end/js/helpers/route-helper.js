@@ -20,10 +20,13 @@ RouteHelper.routePath = function routePath(alias, params) {
     let path = (RouteHelper.routeManfiest[alias] || {}).route || "";
 
     /* Replace params */
-    const pathParams = path.match(/(:\w+\??)/g) || [];
+    const pathParams = path.match(/(\/:\w+\??)/g) || [];
     if (params != null) {
         pathParams.forEach((param) => {
-            const key = param.replace(":", "").replace("?", "");
+            const key = param
+                .replace(":", "")
+                .replace("/", "")
+                .replace("?", "");
             const value = params[key] || "";
 
             path = path.replace(new RegExp(param, "g"), value);
