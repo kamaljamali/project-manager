@@ -4,7 +4,8 @@ block content
     .has-text-centered
         figure
             img.logo
-        h1 Welcome to Ojvar World
+        h1.title.is-1 Hello #{ req.params.name || 'John Doe' }
+        h2.subtitle.is-2 Welcome to Ojvar World
 
 block styles
     link(rel='stylesheet' href=mix('/css/pages/home.index.css'))

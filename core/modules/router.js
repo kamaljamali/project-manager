@@ -1,16 +1,16 @@
-'use strict';
+"use strict";
 
-const Express = require('express');
-const FS = require('fs');
-const Path = require('path');
-const RouterHelper = use('core/helpers/router-helper');
+const Express = require("express");
+const FS = require("fs");
+const Path = require("path");
+const RouterHelper = use("core/helpers/router-helper");
 
-const C_DEF_ROUTE = '';
+const C_DEF_ROUTE = "";
 
 /**
  * Router module
  */
-function Router() { }
+function Router() {}
 module.exports = Router;
 
 /* Defaults */
@@ -26,7 +26,7 @@ Router.boot = function boot(Bootstrap) {
         global.Router = Router;
         Router.loadRoutes();
         Router.addEventHandler();
-        
+
         resolve(Router);
     });
 };
@@ -35,28 +35,28 @@ Router.boot = function boot(Bootstrap) {
  * Load routers
  */
 Router.loadRoutes = function loadRoutes() {
-    const path = rPath('routes');
-    const routes = FS.readdirSync(path)
-        .filter(file => Path.extname(file).toLowerCase() == '.js');
+    const path = rPath("routes");
+    const routes = FS.readdirSync(path).filter(
+        (file) => Path.extname(file).toLowerCase() == ".js"
+    );
 
     /* Load routes */
-    routes.forEach(route => use(path, route));
+    routes.forEach((route) => use(path, route));
 
     /* Use routes */
-    Object.keys(Router._routers)
-        .forEach(routerName => {
-            const router = Router._routers[routerName];
-            let rName = routerName;
+    Object.keys(Router._routers).forEach((routerName) => {
+        const router = Router._routers[routerName];
+        let rName = routerName;
 
-            if (!rName.startsWith('/')) {
-                rName = '/' + rName;
-            }
+        if (!rName.startsWith("/")) {
+            rName = "/" + rName;
+        }
 
-            if (router.router != global.App) {
-                router.__baseRoute = rName;
-                global.App.use(rName, router.router);
-            }
-        });
+        if (router.router != global.App) {
+            router.__baseRoute = rName;
+            global.App.use(rName, router.router);
+        }
+    });
 };
 
 /**
@@ -69,14 +69,13 @@ Router.addEventHandler = function addEventHandler() {
             res.status(500)
                 .send("Internal server error")
                 .end();
-        } else if (req.accepts('html')) {
-            res.render('errors/500.pug', {
+        } else if (req.accepts("html")) {
+            res.render("errors/500.pug", {
                 url: req.url,
-                err
+                err,
             });
         } else {
-            res.type('txt')
-                .send('Internal server error');
+            res.type("txt").send("Internal server error");
         }
     });
 
@@ -86,13 +85,12 @@ Router.addEventHandler = function addEventHandler() {
             res.status(404)
                 .send("The requested route doesn't exist")
                 .end();
-        } else if (req.accepts('html')) {
-            res.render('errors/404.pug', {
-                url: req.url
+        } else if (req.accepts("html")) {
+            res.render("errors/404.pug", {
+                url: req.url,
             });
         } else {
-            res.type('txt')
-                .send('Not found');
+            res.type("txt").send("Not found");
         }
     });
 };
@@ -102,9 +100,8 @@ Router.addEventHandler = function addEventHandler() {
  * @param {Request} req The request
  */
 Router.isAjax = function isAjax(req) {
-    return req.xhr ||
-        (req.headers.accept.indexOf('json') > -1);
-}
+    return req.xhr || req.headers.accept.indexOf("json") > -1;
+};
 
 /* Get/New router */
 Router.router = function router(groupName) {
@@ -112,7 +109,7 @@ Router.router = function router(groupName) {
     let router = Router._routers[groupName];
 
     if (null == router) {
-        router = (C_DEF_ROUTE == groupName) ? global.App : Express.Router();
+        router = C_DEF_ROUTE == groupName ? global.App : Express.Router();
         router = RouterHelper.newRouter(Router, router, groupName);
         Router._routers[groupName] = router;
     }
@@ -128,7 +125,7 @@ Router.router = function router(groupName) {
 Router.addRoute = function addRoute(router, alias, groupName) {
     Router._routes[alias] = {
         router,
-        groupName
+        groupName,
     };
 };
 
@@ -146,19 +143,27 @@ Router.route = function route(alias) {
  * @param {Object} router Router object
  * @param {String} alias Alias
  */
-Router.routePath = function routePath(alias) {
-    let {
-        groupName,
-        router
-    } = Router.route(alias);
+Router.routePath = function routePath(alias, params) {
+    let { groupName, router } = Router.route(alias);
 
-    let path = (groupName != null ? '/' : '') +
-        ('' + groupName) + router.route.path;
+    let path =
+        (groupName != null ? "/" : "") + ("" + groupName) + router.route.path;
 
-    if (path.endsWith('//')) {
+    if (path.endsWith("//")) {
         path = path.substring(0, path.length - 1);
     }
 
+    /* Replace params */
+    const pathParams = path.match(/(:\w+\??)/g) || [];
+    params = params || {};
+    pathParams.forEach((param) => {
+        const key = param.replace(":", "").replace("?", "");
+        const value = params[key] || "";
+
+        path = path.replace(new RegExp(param, "g"), value);
+    });
+
+    /* Add prefix to path */
     path = `${global.serverUrl}${path}`;
 
     return path;
@@ -169,20 +174,19 @@ Router.routePath = function routePath(alias) {
  */
 Router.makeManifest = function makeManifest() {
     return new Promise((resolve, reject) => {
-        const { publicFolder } = config('core/server', 'express');
-        const filePath = rPath(publicFolder, 'route-manifest.json');
+        const { publicFolder } = config("core/server", "express");
+        const filePath = rPath(publicFolder, "route-manifest.json");
 
         const routesList = {};
-        Object.keys(Router._routes)
-            .forEach(x => {
-                const router = Router._routes[x];
+        Object.keys(Router._routes).forEach((x) => {
+            const router = Router._routes[x];
 
-                routesList[x] = {
-                    route: Router.routePath(x),
-                    groupName: router.groupName || '',
-                    subPath: router.router.route.path || ''
-                };
-            });
+            routesList[x] = {
+                route: Router.routePath(x),
+                groupName: router.groupName || "",
+                subPath: router.router.route.path || "",
+            };
+        });
 
         /* Write to file */
         const fullPublicPath = rPath(publicFolder);
