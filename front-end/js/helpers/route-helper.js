@@ -1,19 +1,34 @@
-'use strict';
+"use strict";
+
+import Manfiest from "@PUBLIC/route-manifest.json";
 
 /**
  * Route helper
  */
-function RouteHelper() { }
-module.exports = RouteHelper;
+function RouteHelper() {}
+export default RouteHelper;
 
 /**
  * Get full route-path
  * @param {String} alias Route alias
  */
-RouteHelper.routePath = function routePath(alias) {
+RouteHelper.routePath = function routePath(alias, params) {
     if (!RouteHelper.routeManfiest) {
-        RouteHelper.routeManfiest = require('@PUBLIC/route-manifest.json');
+        RouteHelper.routeManfiest = Manfiest;
     }
 
-    return (RouteHelper.routeManfiest[alias] || {}).route || '';
+    let path = (RouteHelper.routeManfiest[alias] || {}).route || "";
+
+    /* Replace params */
+    const pathParams = path.match(/(:\w+\??)/g) || [];
+    if (params != null) {
+        pathParams.forEach((param) => {
+            const key = param.replace(":", "").replace("?", "");
+            const value = params[key] || "";
+
+            path = path.replace(new RegExp(param, "g"), value);
+        });
+    }
+
+    return path;
 };
