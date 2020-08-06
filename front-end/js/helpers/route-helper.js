@@ -29,7 +29,7 @@ RouteHelper.routePath = function routePath(alias, params) {
                 .replace("?", "");
             const value = params[key] || "";
 
-            path = path.replace(new RegExp(param, "g"), value);
+            path = path.replace(new RegExp(param, "g"), "/" + value);
         });
     }
 
