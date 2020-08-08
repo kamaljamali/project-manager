@@ -19,9 +19,9 @@ mix.alias({
     "@IMAGES": "front-end/images",
     "@FONTS": "front-end/fonts",
     "@HELPERS": "front-end/js/helpers",
-    "@VUE": "front-end/js/vue",
-    "@VUEC": "front-end/js/vue/components",
-    "@VUEX": "front-end/js/vue/vuex",
+    "@VUE": "front-end/vue",
+    "@VUEC": "front-end/vue/components",
+    "@VUEX": "front-end/vue/vuex",
 });
 
 /**
