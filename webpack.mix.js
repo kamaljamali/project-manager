@@ -57,3 +57,6 @@ mix.sass("front-end/sass/core/app.scss", "public/css/core").sass(
     "front-end/sass/pages/home.index.scss",
     "public/css/pages"
 );
+
+/* Copy directory */
+mix.copyDirectory("front-end/images", "public/images");
