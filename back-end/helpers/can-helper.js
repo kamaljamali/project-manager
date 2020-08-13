@@ -1,11 +1,10 @@
-'use strict';
+"use strict";
 
 /**
  * Crypto Helper function
  */
-function CanHelper() { }
+function CanHelper() {}
 module.exports = CanHelper;
-
 
 /**
  * Check for abilities
