@@ -19,6 +19,7 @@ mix.alias({
     "@IMAGES": "front-end/images",
     "@FONTS": "front-end/fonts",
     "@HELPERS": "front-end/js/helpers",
+    "@REQUEST": "front-end/js/request-helpers",
     "@VUE": "front-end/vue",
     "@VUEC": "front-end/vue/components",
     "@VUEX": "front-end/vue/vuex",
@@ -29,28 +30,24 @@ mix.alias({
  */
 mix.webpackConfig({
     module: {
-        rules: [
-            {
-                test: /\.pug$/,
-                oneOf: [
-                    {
-                        resourceQuery: /^\?vue/,
-                        use: ["pug-plain-loader"],
-                    },
-                    {
-                        use: ["raw-loader", "pug-plain-loader"],
-                    },
-                ],
-            },
-        ],
+        rules: [{
+            test: /\.pug$/,
+            oneOf: [{
+                    resourceQuery: /^\?vue/,
+                    use: ["pug-plain-loader"],
+                },
+                {
+                    use: ["raw-loader", "pug-plain-loader"],
+                },
+            ],
+        }, ],
     },
 });
 
 /* JS */
-mix.js("front-end/js/core/app.js", "public/js/core").js(
-    "front-end/js/pages/home/index.js",
-    "public/js/pages/home"
-);
+mix.js("front-end/js/core/app.js", "public/js/core")
+    .js("front-end/js/pages/home/index.js","public/js/pages/home")
+    .js("front-end/js/pages/project/index.js","public/js/pages/project");
 
 /* SASS */
 mix.sass("front-end/sass/core/app.scss", "public/css/core").sass(

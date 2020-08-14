@@ -3,4 +3,4 @@
 /* Get Home router */
 const router = Router.router();
 
-router.get('/', 'home@index', 'home.index');
+router.get('/project', 'project@index', 'project.index');
