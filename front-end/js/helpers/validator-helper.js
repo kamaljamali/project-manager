@@ -25,20 +25,20 @@ Validator.validate = function validate(customValidator) {
     }
 
     if (customValidator.rules) {
-        rules = customValidator.rules();
+        rules = customValidator.rules(data);
     }
 
     if (customValidator.messages) {
-        messages = customValidator.messages();
+        messages = customValidator.messages(data);
     }
 
     if (customValidator.attributes) {
-        attributes = customValidator.attributes();
+        attributes = customValidator.attributes(data);
     }
 
     /* Setup language */
     if (null != customValidator.lang) {
-        lang = customValidator.lang();
+        lang = customValidator.lang(data);
     }
     ValidatorJS.useLang(lang);
 

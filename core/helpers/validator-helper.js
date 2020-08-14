@@ -1,11 +1,11 @@
-'use strict'
+"use strict";
 
-const ValidatorJS = require('validatorjs');
+const ValidatorJS = require("validatorjs");
 
 /**
  * Validator
  */
-function Validator() { }
+function Validator() {}
 module.exports = Validator;
 
 /**
@@ -18,7 +18,7 @@ Validator.validate = function validate(customValidator) {
         let rules = {};
         let messages = {};
         let attributes = {};
-        let lang = req.lang || 'en';
+        let lang = req.lang || "en";
 
         /* Preparation */
         if (customValidator.data) {
@@ -48,8 +48,9 @@ Validator.validate = function validate(customValidator) {
 
         /* Set attribute name */
         const attributeNames = {};
-        Object.keys(attributes)
-            .forEach(key => attributeNames[key] = attributes[key]);
+        Object.keys(attributes).forEach(
+            (key) => (attributeNames[key] = attributes[key])
+        );
         validator.setAttributeNames(attributes);
 
         /* Validate */
@@ -75,10 +76,9 @@ Validator.generateErrors = function generateErrors(validator) {
 
     /* All errors */
     const errors = [];
-    Object.keys(allErrors)
-        .forEach(key => {
-            errors.push(allErrors[key].join('\n'));
-        });
+    Object.keys(allErrors).forEach((key) => {
+        errors.push(allErrors[key].join("\n"));
+    });
 
-    return errors.join('\n');
+    return errors.join("\n");
 };

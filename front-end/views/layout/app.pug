@@ -1,57 +1,55 @@
 doctype html
-html(lang='en')
+html
     head
-        meta(charset='UTF-8')
-        meta(name='viewport' content='width=device-width, initial-scale=1.0')
-        meta(http-equiv='X-UA-Compatible' content='ie=edge')
-
-        title= (title || 'Sunset-V3')
+        meta(charset='utf-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1')
+        title OjvarLand
 
         link(rel='stylesheet' href=mix('/css/core/app.css'))
         block styles
 
         script(defer src=mix('/js/core/app.js'))
         block scripts
-
-    body
-        nav.navbar(role='navigation' aria-label='main navigation')
-            .navbar-brand
-                a.navbar-item(href=global.serverUrl)
-                    img.nav-bar-logo
-                a.navbar-burger.burger(role='button' aria-label='menu'
-                    aria-expanded='false' data-target='navbarBasicExample')
-                    span(aria-hidden='true')
-                    span(aria-hidden='true')
-                    span(aria-hidden='true')
-            #navbarBasicExample.navbar-menu
-                .navbar-start
-                    a.navbar-item(href=Router.routePath('home.index'))
-                        | Home
-                    .navbar-item.has-dropdown.is-hoverable
-                        a.navbar-link
-                            | More
-                        .navbar-dropdown
+body
+    section
+        div
+            nav.navbar
+                .container
+                    .navbar-brand
+                        a.navbar-item
+                            img(src='images/logo.png' alt='Logo')
+                        span.navbar-burger.burger(data-target='navbarMenuHero1')
+                            span
+                            span
+                            span
+                    #navbarMenuHero1.navbar-menu
+                        .navbar-end
+                            a.navbar-item.is-active
+                                | Home
                             a.navbar-item
                                 | About
-                            hr.navbar-divider
-                            a.navbar-item
-                                | Report an issue
-                .navbar-end
-                    .navbar-item
-                        .buttons
-                            if (can('auth', req))
-                                a.button.is-light(href=Router.routePath('auth.logout'))
-                                    | Log out
-                            else
-                                a.button.is-primary
-                                    strong Sign up
-                                a.button.is-light(href=Router.routePath('auth.login'))
-                                    | Log in
+                            //- .navbar-item.has-dropdown.is-hoverable
+                                .navbar-link
+                                    | More
+                                #moreDropdown.navbar-dropdown
+                                    a.navbar-item(href='#')
+                                        .level.is-mobile
+                                            .level-left
+                                                .level-item
+                                                    p
+                                                        strong Extensions
+                                                        br
+                                                        small Side projects to enhance Bulma
 
-        section.section#app
-            .contaier
-                block content
-
-        footer.footer
-            .content.has-text-left
-                p Ojvar world
+        .hero.is-fullheight-with-navbar
+            .hero-body
+                .container.has-text-centered
+                    block content
+            .hero-foot
+                nav.tabs
+                    .container
+                        ul
+                            li.is-active
+                                a Home
+                            li
+                                a About

@@ -1,4 +1,8 @@
 @charset "utf-8";
-@import "~bulma/bulma";
+@import "./variables";
+@import "~bulma-rtl/bulma";
+@import "./_overrides.scss";
 
-@import "./layout-app.scss";
+html {
+    overflow-y: hidden;
+}

@@ -1,7 +1,7 @@
 'use strict';
 
 const Crypto = require('crypto');
-const CryptoConfig = config('back-end/crypto');
+const CryptoConfig = config('back-end/crypto-helper');
 
 /**
  * Crypto Helper function
