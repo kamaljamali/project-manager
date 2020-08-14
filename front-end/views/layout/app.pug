@@ -1,9 +1,12 @@
+block vars
+    - var title ="Sunset III";
+
 doctype html
 html
     head
         meta(charset='utf-8')
         meta(name='viewport' content='width=device-width, initial-scale=1')
-        title OjvarLand
+        title #{title}
 
         link(rel='stylesheet' href=mix('/css/core/app.css'))
         block styles
@@ -11,7 +14,7 @@ html
         script(defer src=mix('/js/core/app.js'))
         block scripts
 body
-    section
+    section#app
         div
             nav.navbar
                 .container
