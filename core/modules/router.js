@@ -161,8 +161,11 @@ Router.routePath = function routePath(alias, params) {
             path = path.replace(new RegExp(param, "g"), value);
         });
     }
+
     /* Add prefix to path */
-    path = `${global.serverUrl}${path}`;
+    const ServerConfig = config("core/server");
+    let baseAddr = ServerConfig.https == true ? "https://" : "http://";
+    path = `${baseAddr}${global.serverUrl}${path}`;
 
     return path;
 };
