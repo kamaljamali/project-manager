@@ -148,21 +148,19 @@ Router.routePath = function routePath(alias, params) {
 
     let path =
         (groupName != null ? "/" : "") + ("" + groupName) + router.route.path;
-
-    if (path.endsWith("//")) {
-        path = path.substring(0, path.length - 1);
-    }
+    path = path.replace(/\/\//g, "/");
 
     /* Replace params */
-    const pathParams = path.match(/(:\w+\??)/g) || [];
-    params = params || {};
-    pathParams.forEach((param) => {
-        const key = param.replace(":", "").replace("?", "");
-        const value = params[key] || "";
+    if (null != params) {
+        const pathParams = path.match(/(:\w+\??)/g) || [];
+        params = params || {};
+        pathParams.forEach((param) => {
+            const key = param.replace(":", "").replace("?", "");
+            const value = params[key] || "";
 
-        path = path.replace(new RegExp(param, "g"), value);
-    });
-
+            path = path.replace(new RegExp(param, "g"), value);
+        });
+    }
     /* Add prefix to path */
     path = `${global.serverUrl}${path}`;
 
