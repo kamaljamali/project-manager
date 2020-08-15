@@ -1,13 +1,13 @@
-'use strict';
+"use strict";
 
-const Http = require('http');
-const Https = require('https');
-const FS = require('fs');
+const Http = require("http");
+const Https = require("https");
+const FS = require("fs");
 
 /**
  * Server module
  */
-function Server() { }
+function Server() {}
 module.exports = Server;
 
 /**
@@ -15,7 +15,7 @@ module.exports = Server;
  * @param {Object} Bootstrap Bootstrap instance
  */
 Server.boot = function boot(Bootstrap) {
-    const Config = global.config('core/server');
+    const Config = global.config("core/server");
 
     return Server.listen(Config);
 };
@@ -26,19 +26,21 @@ Server.boot = function boot(Bootstrap) {
  */
 Server.listen = function listen(Config) {
     return new Promise((resolve, reject) => {
-        let server = (Config.https === true) ?
-            Server.startHttps(Config) :
-            Server.startHttp(Config);
+        let server =
+            Config.https === true
+                ? Server.startHttps(Config)
+                : Server.startHttp(Config);
 
         const deafultPort = Config.https ? 443 : 80;
-        const serverUrl = (Config.https ? 'https://' : 'http://') +
+        const serverUrl =
+            (Config.https ? "https://" : "http://") +
             Config.host +
-            (Config.port != deafultPort ? `:${Config.port}` : '');
+            (Config.port != deafultPort ? `:${Config.port}` : "");
         server.listen(Config.port, Config.host, () => {
             Logger.info(`Server started at ${serverUrl}`);
         });
 
-        global.serverUrl = serverUrl;
+        global.serverUrl = Config.serverUrl;
         global.Server = server;
 
         resolve();
@@ -52,7 +54,7 @@ Server.listen = function listen(Config) {
 Server.startHttp = function startHttp(Config) {
     const httpServer = Http.createServer(global.App);
 
-    Logger.info('> Create Http Server');
+    Logger.info("> Create Http Server");
     return httpServer;
 };
 
@@ -62,12 +64,12 @@ Server.startHttp = function startHttp(Config) {
  */
 Server.startHttps = function startHttps(Config) {
     const options = {
-        key: FS.readFileSync(rPath('config/core/ssl/key.pem')),
-        cert: FS.readFileSync(rPath('config/core/ssl/cert.pem')),
-        dhparam: FS.readFileSync(rPath('config/core/ssl/dhparam.pem'))
+        key: FS.readFileSync(rPath("config/core/ssl/key.pem")),
+        cert: FS.readFileSync(rPath("config/core/ssl/cert.pem")),
+        dhparam: FS.readFileSync(rPath("config/core/ssl/dhparam.pem")),
     };
     const httpsServer = Https.createServer(options, global.App);
 
-    Logger.info('> Create Https Server');
+    Logger.info("> Create Https Server");
     return httpsServer;
 };
