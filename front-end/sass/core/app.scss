@@ -3,6 +3,5 @@
 @import "~bulma-rtl/bulma";
 @import "./_overrides.scss";
 
-html {
-    overflow-y: hidden;
-}
+
+@import "../pages/layout-app.scss";

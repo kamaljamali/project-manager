@@ -1,0 +1,11 @@
+extends ../../layout/app.pug
+
+block content
+    task-manager(project-id=projectId
+)
+
+block styles
+    link(rel='stylesheet' href=mix('/css/pages/home.index.css'))
+
+block scripts
+    script(defer src=mix("/js/pages/task/index.js"))

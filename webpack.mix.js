@@ -7,7 +7,8 @@ mix.setPublicPath("public");
 if (process.env.NODE_ENV === "development") {
     mix.sourceMaps();
 }
-mix.version();
+mix.version()
+    .disableNotifications();
 
 /* Aliases */
 mix.alias({
@@ -33,21 +34,24 @@ mix.webpackConfig({
         rules: [{
             test: /\.pug$/,
             oneOf: [{
-                    resourceQuery: /^\?vue/,
-                    use: ["pug-plain-loader"],
-                },
-                {
-                    use: ["raw-loader", "pug-plain-loader"],
-                },
+                resourceQuery: /^\?vue/,
+                use: ["pug-plain-loader"],
+            },
+            {
+                use: ["raw-loader", "pug-plain-loader"],
+            },
             ],
-        }, ],
+        },],
     },
 });
 
 /* JS */
 mix.js("front-end/js/core/app.js", "public/js/core")
-    .js("front-end/js/pages/home/index.js","public/js/pages/home")
-    .js("front-end/js/pages/project/index.js","public/js/pages/project");
+    .js("front-end/js/pages/home/index.js", "public/js/pages/home")
+    .js("front-end/js/pages/project/index.js", "public/js/pages/project")
+    .js("front-end/js/pages/task/index.js", "public/js/pages/task")
+    .js("front-end/js/pages/employee/index.js", "public/js/pages/employee")
+    .js("front-end/js/pages/project2/index.js", "public/js/pages/project2");
 
 /* SASS */
 mix.sass("front-end/sass/core/app.scss", "public/css/core").sass(

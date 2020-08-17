@@ -4,44 +4,48 @@ div
         thead
             tr
                 th ID
-                th نام پروژه
-                th شروع
-                th زمان مقرر شده
-                th زمان اتمام
-                th دستور
+                th نام وظیفه
+                th توضیحات
+                th پروژه مادر
+                th زمان شروع
+                th پایان
+                th اتمام واقعی
+                th نام مجری
+                th هزینه
+                th حذف
         tbody
             tr(v-for="data in value" :Key="data.ID")
                 td {{ data.ID }}
                 td {{ data.name }}
+                td {{ data.description }}
+                td {{ data.project_id }}
                 td {{ data.start }}
                 td {{ data.appointedTime }}
                 td {{ data.finishTime }}
-                td.has-text-centered
+                td {{ data.employee_id }}
+                td {{ data.cast }}
+                td 
                     a.button.is-danger(
                         href="#",
                         @click.prevent="deleteValue(data)"
                     )
                         i.fa.fa-times
-                    | 
-                    a.button.is-success(
-                        href="#",
-                        @click.prevent="goToTasks(data.ID)"
-                    )
-                        i.fa.fa-eye
 </template>
 
 <script>
-import LoadProjectHelper from "@REQUEST/project/load-project-helper.js";
-
-import RouteHelper from "@HELPERS/route-helper";
+import LoadTasktHelper from "@REQUEST/task/load-task-helper.js";
 
 export default {
-    name: "LoadProjectData",
+    name: "LoadTasktData",
 
     props: {
         value: {
             type: Array,
             default: () => [],
+        },
+        projectId: {
+            type: String,
+            default: null,
         },
     },
 
@@ -53,9 +57,13 @@ export default {
         /**
          * Load Results
          */
-        async loadData() {
+        async loadData(employee) {
             try {
-                const data = await LoadProjectHelper.loadProjects();
+                const data = await LoadTasktHelper.loadTasks(
+                    this.projectId,
+                    employee
+                );
+                console.log(data)
                 this.$emit("input", data);
             } catch (err) {
                 console.log(err);
@@ -66,7 +74,7 @@ export default {
          */
         deleteValue(data) {
             const confirmed = confirm(
-                "Are you sure delete this project with code " + data.ID + " ?"
+                "Are you sure delete this task with code : " + data.ID + " ?"
             );
             if (confirmed) {
                 const index = this.value.findIndex((x) => x.ID == data.ID);
@@ -74,12 +82,6 @@ export default {
                     Vue.delete(this.value, index);
                 }
             }
-        },
-        goToTasks(projectId) {
-            const url = RouteHelper.routePath("project.task.index", {
-                projectId: projectId,
-            });
-            window.location.href = url;
         },
     },
 };

@@ -1,23 +1,27 @@
 <template lang="pug">
 
 .container-child
+    .container
+        load-employee(v-model="employees" v-on:resultTaskFromEmployee="resultTaskFromEmployee")
+    br
     .container(v-show="isViewMode")
-      load-project(v-model="projects")
+      load-task(ref="loadTask" v-model="tasks" :project-id="projectId")
       br
-      a.button.is-success(href="#", @click.prevent="addNewProject")
+      a.button.is-success(href="#", @click.prevent="addNewTask")
         i.fa.fa-plus
 
     .container(v-if="isRegisterMode")
-      add-project(v-model="newProject" @on-register="newProjectRegister" @on-register-cancel="newProjectCancel")    
+      add-task(v-model="newTask" :project-id="projectId" @on-register="newTaskRegister" @on-register-cancel="newTaskCancel")    
 
 </template>
 
 <script>
-import LoadProject from "@VUEC/project/load-project.vue";
-import AddProject from "@VUEC/project/add-project.vue";
+import LoadTask from "@VUEC/task/load-task.vue";
+import AddTask from "@VUEC/task/add-task.vue";
+import LoadEmployee from "@VUEC/employee/load-employee";
 
 export default {
-    name: "ProjectManager",
+    name: "TaskManager",
 
     data: () => ({
         FORM_MODES: {
@@ -26,13 +30,22 @@ export default {
         },
         formMode: null,
 
-        projects: [],
-        newProject: {},
+        tasks: [],
+        newTask: {},
+        employees: [],
     }),
 
     components: {
-        LoadProject,
-        AddProject,
+        LoadTask,
+        AddTask,
+        LoadEmployee,
+    },
+
+    props: {
+        projectId: {
+            type: String,
+            default: null,
+        },
     },
 
     computed: {
@@ -64,17 +77,20 @@ export default {
             Vue.set(this, "formMode", this.FORM_MODES.REGISTER);
         },
 
-        addNewProject() {
-            Vue.set(this, "newProject", {});
+        addNewTask() {
+            Vue.set(this, "newTask", {});
             this.setRegisterMode();
         },
 
-        newProjectRegister() {
-            Vue.set(this.projects, this.projects.length, this.newProject);
+        newTaskRegister() {
+            Vue.set(this.tasks, this.tasks.length, this.newTask);
             this.setViewMode();
         },
-        newProjectCancel() {
+        newTaskCancel() {
             this.setViewMode();
+        },
+        resultTaskFromEmployee(employee) {
+            this.$refs.loadTask.loadData(employee);
         },
     },
 };

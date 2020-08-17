@@ -2,22 +2,22 @@
 
 .container-child
     .container(v-show="isViewMode")
-      load-project(v-model="projects")
+      load-employee(v-model="employees")
       br
-      a.button.is-success(href="#", @click.prevent="addNewProject")
+      a.button.is-success(href="#", @click.prevent="addNewEmployee")
         i.fa.fa-plus
 
     .container(v-if="isRegisterMode")
-      add-project(v-model="newProject" @on-register="newProjectRegister" @on-register-cancel="newProjectCancel")    
+      add-employee(v-model="newEmployee" @on-register="newEmployeeRegister" @on-register-cancel="newEmployeeCancel")    
 
 </template>
 
 <script>
-import LoadProject from "@VUEC/project/load-project.vue";
-import AddProject from "@VUEC/project/add-project.vue";
+import LoadEmployee from "@VUEC/employee/load-employee.vue";
+import AddEmployee from "@VUEC/employee/add-employee.vue";
 
 export default {
-    name: "ProjectManager",
+    name: "EmployeeManager",
 
     data: () => ({
         FORM_MODES: {
@@ -26,13 +26,20 @@ export default {
         },
         formMode: null,
 
-        projects: [],
-        newProject: {},
+        employees: [],
+        newEmployee: {},
     }),
 
     components: {
-        LoadProject,
-        AddProject,
+        LoadEmployee,
+        AddEmployee,
+    },
+
+    props: {
+        projectId: {
+            type: String,
+            default: null,
+        },
     },
 
     computed: {
@@ -64,16 +71,16 @@ export default {
             Vue.set(this, "formMode", this.FORM_MODES.REGISTER);
         },
 
-        addNewProject() {
-            Vue.set(this, "newProject", {});
+        addNewEmployee() {
+            Vue.set(this, "newEmployee", {});
             this.setRegisterMode();
         },
 
-        newProjectRegister() {
-            Vue.set(this.projects, this.projects.length, this.newProject);
+        newEmployeeRegister() {
+            Vue.set(this.employees, this.employees.length, this.newEmployee);
             this.setViewMode();
         },
-        newProjectCancel() {
+        newEmployeeCancel() {
             this.setViewMode();
         },
     },

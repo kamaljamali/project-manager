@@ -3,7 +3,7 @@
 /**
  * Controller
  */
-function Controller() {}
+function Controller() { }
 module.exports = Controller;
 
 /**
@@ -14,6 +14,18 @@ module.exports = Controller;
  */
 Controller.index = function index(req, res, next) {
     res.render('pages/project/project.pug', {
+        req,
+    });
+};
+
+/**
+ * Index2 action
+ * @param {Request} req Request
+ * @param {Response} res Response
+ * @param {Function} next Callback
+ */
+Controller.index2 = function index2(req, res, next) {
+    res.render('pages/project/project2.pug', {
         req
     });
 };

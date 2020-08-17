@@ -1,6 +1,6 @@
 'use strict';
 
-import ProjectManager from '@VUEC/project/project-manager.vue'
+import EmployeeManager from '@VUEC/employee/employee-manager.vue'
 
 /**
  * Page module
@@ -11,12 +11,11 @@ export default function Page() {}
  * Initialize
  */
 Page.init = function init() {
-
     new Vue({
         el: '#app',
 
         components: {
-            ProjectManager
+            EmployeeManager
         }
     });
 };
