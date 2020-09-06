@@ -37,10 +37,6 @@ SessionModule.initSession = function initSession(config) {
             maxAge: (60000 * 15),
         }, config);
 
-        if (isProductionMode()) {
-            App.set('trust proxy', 1);
-        }
-
         SessionModule.makeStore(config, Session)
             .then(res => {
                 options.store = res;

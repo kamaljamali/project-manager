@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /**
  * Route Helper
@@ -6,20 +6,25 @@
 function RouterHelper(Router, newRouter, groupName) {
     this.Router = Router;
     this.router = newRouter;
-    this.groupName = groupName || '';
+    this.groupName = groupName || "";
+
+    /* Use method */
+    this.use = function use() {
+        newRouter.use(...arguments);
+    };
 
     /* Types */
     const types = [
-        'get',
-        'head',
-        'post',
-        'patch',
-        'put',
-        'delete',
-        'options',
-        'link'
+        "get",
+        "head",
+        "post",
+        "patch",
+        "put",
+        "delete",
+        "options",
+        "link",
     ];
-    types.forEach(type => {
+    types.forEach((type) => {
         this[type] = (url, functions, alias) => {
             /* Add route to router */
             newRouter[type](url, RouterHelper.parseFunctions(functions));
@@ -46,7 +51,12 @@ module.exports = RouterHelper;
  * @param {Object|String|Array} functions functions
  * @param {String} alias Route alias
  */
-RouterHelper.prototype.addRoute = function addRoute(type, url, functions, alias) {};
+RouterHelper.prototype.addRoute = function addRoute(
+    type,
+    url,
+    functions,
+    alias
+) {};
 
 /**
  * Redirect
@@ -54,10 +64,9 @@ RouterHelper.prototype.addRoute = function addRoute(type, url, functions, alias)
  */
 RouterHelper.redirect = function redirect(Router) {
     return (to) => {
-        console.log('Redirct', to);
+        console.log("Redirct", to);
     };
 };
-
 
 /**
  * Create an new router wrapper object
@@ -69,12 +78,12 @@ RouterHelper.newRouter = function newRouter(Router, newRouter, groupName) {
 };
 
 /**
- * Parse functions 
+ * Parse functions
  * @param {Any} functions Functions
  */
 RouterHelper.parseFunctions = function parseFunctions(functions) {
-    const controllerPostfix = '-controller';
-    const actionSeparator = '@';
+    const controllerPostfix = "-controller";
+    const actionSeparator = "@";
     let funcs = [];
 
     /* Convert to array */
@@ -83,14 +92,14 @@ RouterHelper.parseFunctions = function parseFunctions(functions) {
     }
 
     /* Parse array items */
-    functions.forEach(fnc => {
+    functions.forEach((fnc) => {
         const fncType = typeof fnc;
 
-        if ('string' == fncType) {
+        if ("string" == fncType) {
             let tokens = fnc.split(actionSeparator);
 
             if (tokens.length != 2) {
-                throw new Error('Invalid call string, Controller@Action');
+                throw new Error("Invalid call string, Controller@Action");
             }
 
             if (!tokens[0].endsWith(controllerPostfix)) {
