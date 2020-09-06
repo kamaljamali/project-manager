@@ -65,6 +65,7 @@ ExpressModule.addMiddleware = function addMiddleware(app, config) {
 
     /* Add morgan */
     if (isProductionMode()) {
+        app.set("trust proxy", config.trustedProxy.split(/[\,\;]/g));
         app.use(Morgan("combined"));
     } else {
         app.use(Morgan("dev"));

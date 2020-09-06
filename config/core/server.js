@@ -31,6 +31,9 @@ module.exports = {
         throttleWindow: process.env.EXPRESS_THROTTLE_WINDOW || 60 * 1000,
         throttleMax: process.env.EXPRESS_THROTTLE_MAX || 60,
         throttleDelay: process.env.EXPRESS_THROTTLE_DELAY || 0,
+        trustedProxy:
+            process.env.EXPRESS_TRUSTED_PROXY ||
+            "loopback,linklocal,uniquelocal",
     },
 
     logger: {
