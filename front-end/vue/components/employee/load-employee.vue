@@ -24,7 +24,8 @@ div
 </template>
 
 <script>
-import LoadEmployeetHelper from "@REQUEST/employee/load-employee-helper.js";
+import LoadEmployeeHelper from "@REQUEST/employee/load-employee-helper.js";
+import RouteHelper from "@HELPERS/route-helper";
 
 export default {
     name: "LoadEmployeetData",
@@ -45,10 +46,9 @@ export default {
          * Load Results
          */
         async loadData() {
+            const url = RouteHelper.routePath("api.employee.data");
             try {
-                const data = await LoadEmployeetHelper.loadEmployees(
-                    this.projectId
-                );
+                const data = await LoadEmployeeHelper.loadEmployees(url);
                 this.$emit("input", data);
             } catch (err) {
                 console.log(err);
@@ -66,7 +66,16 @@ export default {
             if (confirmed) {
                 const index = this.value.findIndex((x) => x.name == data.name);
                 if (index > -1) {
-                    Vue.delete(this.value, index);
+                    const url = RouteHelper.routePath("api.employee.delete", {
+                        id: this.value[index]._id,
+                    });
+
+                    try {
+                        LoadEmployeeHelper.deleteEmployee(url);
+                        Vue.delete(this.value, index);
+                    } catch (err) {
+                        console.log(err);
+                    }
                 }
             }
         },

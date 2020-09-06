@@ -1,27 +1,59 @@
 'use strict';
-
+const AxiosHelper = require("@HELPERS/axios-helper");
 export default function EmployeeHelper() { }
 
 /**
  * load data
  */
-EmployeeHelper.loadEmployees = async function loadEmployees(projectId) {
-    // axios
-    //     .get(url)
-    //     .then(res => {
-    // const data = res.data;
-    // resolve(data);
-    // })
-    // .catch(err => reject(err));
-    const data = [{
-        name: "Hossein",
-    },
-    {
-        name: "Mohammad",
-    }, {
-        name: "Kamal",
-    },
-    ];
-    const rows = data.filter(item => item.project_id == projectId);
-    return rows;
+EmployeeHelper.loadEmployees = async function loadEmployees(url) {
+
+    return new Promise((resolve, reject) => {
+        AxiosHelper.send("get", url).then((res) => {
+            if (res.data.success) {
+                resolve(res.data.data);
+            }
+            else {
+                resolve([]);
+            }
+        })
+            .catch((err) => {
+                reject(err)
+            });
+    });
+};
+/**
+ * delete data
+ */
+EmployeeHelper.deleteEmployee = async function deleteEmployee(url) {
+    return new Promise((resolve, reject) => {
+        AxiosHelper.send("delete", url).then((res) => {
+            if (res.data.success) {
+                resolve(res.data.data);
+            }
+            else {
+                resolve([]);
+            }
+        })
+            .catch((err) => {
+                reject(err)
+            });
+    });
+};
+/**
+ * insert data
+ */
+EmployeeHelper.insertEmployee = async function insertEmployee(url, data) {
+    return new Promise((resolve, reject) => {
+        AxiosHelper.send("post", url, data).then((res) => {
+            if (res.data.success) {
+                resolve(res.data.data);
+            }
+            else {
+                resolve([]);
+            }
+        })
+            .catch((err) => {
+                reject(err)
+            });
+    });
 };

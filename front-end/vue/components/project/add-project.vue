@@ -59,8 +59,10 @@
 
 <script>
 "use strict";
+import LoadProjectHelper from "@REQUEST/project/load-project-helper.js";
+import RouteHelper from "@HELPERS/route-helper";
 
-module.exports = {
+export default {
     name: "AddProject",
 
     props: {
@@ -74,10 +76,17 @@ module.exports = {
 
     methods: {
         saveValue() {
-            this.$emit("on-register", {
-                sender: this,
-                data: this.value,
-            });
+            const url = RouteHelper.routePath("project.store");
+
+            try {
+                const data = LoadProjectHelper.insertProject(url, this.value);
+                this.$emit("on-register", {
+                    sender: this,
+                    data: this.value,
+                });
+            } catch (error) {
+                console.log(error);
+            }
         },
         cancelValue() {
             this.$emit("on-register-cancel", {

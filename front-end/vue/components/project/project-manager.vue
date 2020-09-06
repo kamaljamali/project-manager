@@ -37,9 +37,6 @@ export default {
 
     computed: {
         isViewMode: (state) => state.formMode == state.FORM_MODES.VIEW,
-        // isViewMode(state) {
-        //     return state.formMode == state.FORM_MODES.VIEW;
-        // },
         isRegisterMode: (state) => state.formMode == state.FORM_MODES.REGISTER,
     },
 

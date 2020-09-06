@@ -25,8 +25,10 @@
 
 <script>
 "use strict";
+import LoadEmployeeHelper from "@REQUEST/employee/load-employee-helper.js";
+import RouteHelper from "@HELPERS/route-helper";
 
-module.exports = {
+export default {
     name: "AddEmployee",
 
     props: {
@@ -40,10 +42,17 @@ module.exports = {
 
     methods: {
         saveValue() {
-            this.$emit("on-register", {
-                sender: this,
-                data: this.value,
-            });
+            const url = RouteHelper.routePath("employee.store");
+
+            try {
+                const data = LoadEmployeeHelper.insertEmployee(url, this.value);
+                this.$emit("on-register", {
+                    sender: this,
+                    data: this.value,
+                });
+            } catch (error) {
+                console.log(error);
+            }
         },
         cancelValue() {
             this.$emit("on-register-cancel", {

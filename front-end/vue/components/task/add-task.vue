@@ -72,7 +72,7 @@
                       input.input(
                           type="text",
                           placeholder="نام مجری",
-                          v-model="value.user_id"
+                          v-model="value.employee_id"
                       )
           .column.is-5
               .field
@@ -96,8 +96,10 @@
 
 <script>
 "use strict";
+import LoadTaskHelper from "@REQUEST/task/load-task-helper.js";
+import RouteHelper from "@HELPERS/route-helper";
 
-module.exports = {
+export default {
     name: "AddTask",
 
     props: {
@@ -118,10 +120,17 @@ module.exports = {
 
     methods: {
         saveValue() {
-            this.$emit("on-register", {
-                sender: this,
-                data: this.value,
-            });
+            const url = RouteHelper.routePath("task.store");
+
+            try {
+                const data = LoadTaskHelper.insertTask(url, this.value);
+                this.$emit("on-register", {
+                    sender: this,
+                    data: this.value,
+                });
+            } catch (error) {
+                console.log(error);
+            }
         },
         cancelValue() {
             this.$emit("on-register-cancel", {

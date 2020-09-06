@@ -32,7 +32,6 @@ div
 
 <script>
 import LoadProjectHelper from "@REQUEST/project/load-project-helper.js";
-
 import RouteHelper from "@HELPERS/route-helper";
 
 export default {
@@ -54,8 +53,9 @@ export default {
          * Load Results
          */
         async loadData() {
+            const url = RouteHelper.routePath("api.project.data");
             try {
-                const data = await LoadProjectHelper.loadProjects();
+                const data = await LoadProjectHelper.loadProjects(url);
                 this.$emit("input", data);
             } catch (err) {
                 console.log(err);
@@ -70,8 +70,18 @@ export default {
             );
             if (confirmed) {
                 const index = this.value.findIndex((x) => x.ID == data.ID);
+
                 if (index > -1) {
-                    Vue.delete(this.value, index);
+                    const url = RouteHelper.routePath("api.project.delete", {
+                        id: this.value[index]._id,
+                    });
+
+                    try {
+                        LoadProjectHelper.deleteProject(url);
+                        Vue.delete(this.value, index);
+                    } catch (err) {
+                        console.log(err);
+                    }
                 }
             }
         },

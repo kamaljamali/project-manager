@@ -34,6 +34,7 @@ div
 
 <script>
 import LoadTasktHelper from "@REQUEST/task/load-task-helper.js";
+import RouteHelper from "@HELPERS/route-helper";
 
 export default {
     name: "LoadTasktData",
@@ -58,12 +59,13 @@ export default {
          * Load Results
          */
         async loadData(employee) {
+            const url = RouteHelper.routePath("api.project.task.data", {
+                projectId: this.projectId,
+                employeeId: employee || "*",
+            });
+
             try {
-                const data = await LoadTasktHelper.loadTasks(
-                    this.projectId,
-                    employee
-                );
-                console.log(data)
+                const data = await LoadTasktHelper.loadTasks(url);
                 this.$emit("input", data);
             } catch (err) {
                 console.log(err);
@@ -78,8 +80,18 @@ export default {
             );
             if (confirmed) {
                 const index = this.value.findIndex((x) => x.ID == data.ID);
+
                 if (index > -1) {
-                    Vue.delete(this.value, index);
+                    const url = RouteHelper.routePath("api.task.delete", {
+                        id: this.value[index]._id,
+                    });
+
+                    try {
+                        LoadTasktHelper.deleteTask(url);
+                        Vue.delete(this.value, index);
+                    } catch (err) {
+                        console.log(err);
+                    }
                 }
             }
         },
