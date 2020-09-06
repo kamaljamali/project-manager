@@ -27,6 +27,10 @@ module.exports = {
         compression: process.env.SERVER_COMPRESSION || "gzip",
         cspDefaultSrc: process.env.CSP_POLICY_DEFAULT_SRC || "'self'",
         cspImgSrc: process.env.CSP_POLICY_IMG_SRC || "*",
+        throttleStore: process.env.EXPRESS_THROTTLE_STORE || "memory",
+        throttleWindow: process.env.EXPRESS_THROTTLE_WINDOW || 60 * 1000,
+        throttleMax: process.env.EXPRESS_THROTTLE_MAX || 60,
+        throttleDelay: process.env.EXPRESS_THROTTLE_DELAY || 0,
     },
 
     logger: {
