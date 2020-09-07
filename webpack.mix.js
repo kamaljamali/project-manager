@@ -47,6 +47,7 @@ mix.webpackConfig({
 
 /* JS */
 mix.js("front-end/js/core/app.js", "public/js/core")
+    .js("front-end/js/global/app.js", "public/js/global")
     .js("front-end/js/pages/home/index.js", "public/js/pages/home")
     .js("front-end/js/pages/project/index.js", "public/js/pages/project")
     .js("front-end/js/pages/task/index.js", "public/js/pages/task")

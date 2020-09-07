@@ -13,9 +13,9 @@ div
             tr(v-for="data in value" :Key="data.ID")
                 td {{ data.ID }}
                 td {{ data.name }}
-                td {{ data.start }}
-                td {{ data.appointedTime }}
-                td {{ data.finishTime }}
+                td {{ toPersianDate(data.start) }}
+                td {{ toPersianDate(data.appointedTime) }}
+                td {{ toPersianDate(data.finishTime) }}
                 td.has-text-centered
                     a.button.is-danger(
                         href="#",
@@ -49,6 +49,12 @@ export default {
     },
 
     methods: {
+        /**
+         * To Persian Date
+         */
+        toPersianDate(date) {
+            return DateHelper.toPersianDateLong(date);
+        },
         /**
          * Load Results
          */

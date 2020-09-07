@@ -23,29 +23,34 @@
               .field
                   label.label شروع
                   .control
-                      input.input(
-                          type="text",
-                          placeholder="شروع",
-                          v-model="value.start"
-                      )
+                      date-picker(
+                        v-model="value.start",
+                        format="YYYY-MM-DD HH:mm:ss",
+                        display-format=" jDD/jMM/jYYYY HH:mm",
+                        type="datetime",
+                        required
+                    )
           .column.is-5
               .field
                   label.label زمان مقرر شده
                   .control
-                      input.input(
-                          type="text",
-                          placeholder="زمان مقرر شده",
-                          v-model="value.appointedTime"
-                      )
+                      date-picker(
+                        v-model="value.appointedTime",
+                        format="YYYY-MM-DD HH:mm:ss",
+                        display-format=" jDD/jMM/jYYYY HH:mm",
+                        type="datetime",
+                    )
+
           .column.is-5
               .field
                   label.label زمان اتمام
                   .control
-                      input.input(
-                          type="text",
-                          placeholder="زمان اتمام",
-                          v-model="value.finishTime"
-                      )
+                      date-picker(
+                        v-model="value.finishTime",
+                        format="YYYY-MM-DD HH:mm:ss",
+                        display-format=" jDD/jMM/jYYYY HH:mm",
+                        type="datetime",
+                    )
           .column.is-5
               a.button.is-primary(href="#", @click.prevent="saveValue()")
                   i.fa.fa-save
@@ -61,10 +66,13 @@
 "use strict";
 import LoadProjectHelper from "@REQUEST/project/load-project-helper.js";
 import RouteHelper from "@HELPERS/route-helper";
+const VuePersianDatetimePicker = require("vue-persian-datetime-picker").default;
 
 export default {
     name: "AddProject",
-
+    components: {
+        DatePicker: VuePersianDatetimePicker,
+    },
     props: {
         value: {
             type: Object,

@@ -42,38 +42,42 @@
               .field
                   label.label شروع
                   .control
-                      input.input(
-                          type="text",
-                          placeholder="شروع",
-                          v-model="value.start"
-                      )
+                      date-picker(
+                        v-model="value.start",
+                        format="YYYY-MM-DD HH:mm:ss",
+                        display-format=" jDD/jMM/jYYYY HH:mm",
+                        type="datetime",
+                        required
+                    )
           .column.is-5
               .field
                   label.label زمان مقرر شده
                   .control
-                      input.input(
-                          type="text",
-                          placeholder="زمان مقرر شده",
-                          v-model="value.appointedTime"
-                      )
+                      date-picker(
+                        v-model="value.appointedTime",
+                        format="YYYY-MM-DD HH:mm:ss",
+                        display-format=" jDD/jMM/jYYYY HH:mm",
+                        type="datetime",
+                    )
+
           .column.is-5
               .field
                   label.label زمان اتمام
                   .control
-                      input.input(
-                          type="text",
-                          placeholder="زمان اتمام",
-                          v-model="value.finishTime"
-                      )
+                      date-picker(
+                        v-model="value.finishTime",
+                        format="YYYY-MM-DD HH:mm:ss",
+                        display-format=" jDD/jMM/jYYYY HH:mm",
+                        type="datetime",
+                    )
           .column.is-5
               .field
                   label.label نام مجری
                   .control
-                      input.input(
-                          type="text",
-                          placeholder="نام مجری",
-                          v-model="value.employee_id"
-                      )
+                        .select.is-success
+                            select(v-model="value.employee_id")
+                                option(v-for='(employee, employeeIndex) in employees',
+                                    :value="employee.name") {{ employee.name }}
           .column.is-5
               .field
                   label.label هزینه
@@ -98,10 +102,18 @@
 "use strict";
 import LoadTaskHelper from "@REQUEST/task/load-task-helper.js";
 import RouteHelper from "@HELPERS/route-helper";
+import LoadEmployeeHelper from "@REQUEST/employee/load-employee-helper.js";
+const VuePersianDatetimePicker = require("vue-persian-datetime-picker").default;
 
 export default {
     name: "AddTask",
 
+    data: () => ({
+        employees: [],
+    }),
+    components: {
+        DatePicker: VuePersianDatetimePicker,
+    },
     props: {
         value: {
             type: Object,
@@ -115,13 +127,27 @@ export default {
     },
 
     created() {
+        this.loadEmployees();
         Vue.set(this.value, "project_id", this.projectId);
     },
 
     methods: {
+        /**
+         * load all programs for select programs in form
+         */
+        loadEmployees() {
+            const url = RouteHelper.routePath("api.employee.data");
+            LoadEmployeeHelper.loadEmployees(url)
+                .then((data) => {
+                    Vue.set(this, "employees", data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
         saveValue() {
             const url = RouteHelper.routePath("task.store");
-
+            console.log(this.value);
             try {
                 const data = LoadTaskHelper.insertTask(url, this.value);
                 this.$emit("on-register", {

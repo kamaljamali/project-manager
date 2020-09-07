@@ -19,9 +19,9 @@ div
                 td {{ data.name }}
                 td {{ data.description }}
                 td {{ data.project_id }}
-                td {{ data.start }}
-                td {{ data.appointedTime }}
-                td {{ data.finishTime }}
+                td {{ toPersianDate(data.start) }}
+                td {{ toPersianDate(data.appointedTime) }}
+                td {{ toPersianDate(data.finishTime) }}
                 td {{ data.employee_id }}
                 td {{ data.cast }}
                 td 
@@ -55,6 +55,12 @@ export default {
     },
 
     methods: {
+        /**
+         * To Persian Date
+         */
+        toPersianDate(date) {
+            return DateHelper.toPersianDateLong(date);
+        },
         /**
          * Load Results
          */
