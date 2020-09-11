@@ -33,7 +33,7 @@ div
 </template>
 
 <script>
-import LoadTasktHelper from "@REQUEST/task/load-task-helper.js";
+import LoadTaskHelper from "@REQUEST/task/load-task-helper.js";
 import RouteHelper from "@HELPERS/route-helper";
 
 export default {
@@ -71,7 +71,7 @@ export default {
             });
 
             try {
-                const data = await LoadTasktHelper.loadTasks(url);
+                const data = await LoadTaskHelper.loadTasks(url);
                 this.$emit("input", data);
             } catch (err) {
                 console.log(err);
@@ -93,7 +93,7 @@ export default {
                     });
 
                     try {
-                        LoadTasktHelper.deleteTask(url);
+                        LoadTaskHelper.deleteTask(url);
                         Vue.delete(this.value, index);
                     } catch (err) {
                         console.log(err);

@@ -33,6 +33,7 @@ div
 <script>
 import LoadProjectHelper from "@REQUEST/project/load-project-helper.js";
 import RouteHelper from "@HELPERS/route-helper";
+import LoadTaskHelper from "@REQUEST/task/load-task-helper.js";
 
 export default {
     name: "LoadProjectData",
@@ -71,25 +72,49 @@ export default {
          * delete item
          */
         deleteValue(data) {
-            const confirmed = confirm(
-                "Are you sure delete this project with code " + data.ID + " ?"
-            );
-            if (confirmed) {
-                const index = this.value.findIndex((x) => x.ID == data.ID);
+            const url = RouteHelper.routePath("api.project.task.data", {
+                projectId: data.ID,
+                employeeId: "*",
+            });
 
-                if (index > -1) {
-                    const url = RouteHelper.routePath("api.project.delete", {
-                        id: this.value[index]._id,
+            return new Promise((resolve, reject) => {
+                LoadTaskHelper.loadTasks(url)
+                    .then((res) => {
+                        if (res.length <= 0) {
+                            const confirmed = confirm(
+                                `آیا از حذف این پروژه اطمینان دارید با کد ${data.ID} ?`
+                            );
+                            if (confirmed) {
+                                const index = this.value.findIndex(
+                                    (x) => x.ID == data.ID
+                                );
+
+                                if (index > -1) {
+                                    const url = RouteHelper.routePath(
+                                        "api.project.delete",
+                                        {
+                                            id: this.value[index]._id,
+                                        }
+                                    );
+
+                                    try {
+                                        LoadProjectHelper.deleteProject(url);
+                                        Vue.delete(this.value, index);
+                                    } catch (err) {
+                                        console.log(err);
+                                    }
+                                }
+                            }
+                        } else {
+                            alert(
+                                "پروژه انتخابی دارای وظیفه می باش  لطفا ابتدا وظیفه ها را حذف کنید"
+                            );
+                        }
+                    })
+                    .catch((err) => {
+                        reject(err);
                     });
-
-                    try {
-                        LoadProjectHelper.deleteProject(url);
-                        Vue.delete(this.value, index);
-                    } catch (err) {
-                        console.log(err);
-                    }
-                }
-            }
+            });
         },
         goToTasks(projectId) {
             const url = RouteHelper.routePath("project.task.index", {

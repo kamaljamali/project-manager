@@ -52,7 +52,8 @@ mix.js("front-end/js/core/app.js", "public/js/core")
     .js("front-end/js/pages/project/index.js", "public/js/pages/project")
     .js("front-end/js/pages/task/index.js", "public/js/pages/task")
     .js("front-end/js/pages/employee/index.js", "public/js/pages/employee")
-    .js("front-end/js/pages/project2/index.js", "public/js/pages/project2");
+    .js("front-end/js/pages/project2/index.js", "public/js/pages/project2")
+    .js("front-end/js/pages/gantt-chart/index.js", "public/js/pages/gantt-chart");
 
 /* SASS */
 mix.sass("front-end/sass/core/app.scss", "public/css/core").sass(

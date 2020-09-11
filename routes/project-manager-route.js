@@ -18,3 +18,5 @@ router.post('/employee', 'employee@store', 'employee.store');
 router.get('/employee', 'employee@index', 'employee.index');
 router.get('/api/employee/data', 'employee@loadData', 'api.employee.data');
 router.delete('/api/employee/delete/:id', 'employee@deleteEmployee', 'api.employee.delete');
+
+router.get('/project/gantt-chart', 'gantt-chart@index', 'project.gantt-chart');
